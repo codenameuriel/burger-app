@@ -6,7 +6,7 @@ const Layout = props => {
   return (
     <Aux>
       <div>Toolbar, SideDrawer, Backdrop</div>
-      <main className={LayoutStyles.content}>
+      <main className={LayoutStyles.Content}>
         {props.children}
       </main>
     </Aux>
