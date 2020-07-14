@@ -26,7 +26,7 @@
 /* to handle portrait mode viewing size */
 @media (min-width: 500px) and (min-height: 400px) {
   .Burger {
-    width: 350px;
-    height: 300px;
+    width: 400px;
+    height: 350px;
   }
 }
