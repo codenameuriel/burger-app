@@ -12,6 +12,7 @@ const controls = [
 const BuildControls = props => {
   return (
     <div className={BuildControlsStyles.BuildControls}>
+      <p>Current Price: <strong>${props.price}</strong></p>
       {controls.map(ctrl => 
         <BuildControl 
           key={ctrl.label} 
@@ -20,6 +21,9 @@ const BuildControls = props => {
           removeIngredient={() => props.removeIngredient(ctrl.type)} 
           zeroQuantity={props.zeroQuantityInfo[ctrl.type]} />
       )}
+      <button 
+        className={BuildControlsStyles.OrderButton} 
+        disabled={!props.purchasable}>Place Order</button>
     </div>
   );
 };
