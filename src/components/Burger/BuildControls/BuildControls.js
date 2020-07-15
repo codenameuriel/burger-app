@@ -17,7 +17,8 @@ const BuildControls = props => {
           key={ctrl.label} 
           label={ctrl.label}
           addIngredient={() => props.addIngredient(ctrl.type)}
-          removeIngredient={() => props.removeIngredient(ctrl.type)} />
+          removeIngredient={() => props.removeIngredient(ctrl.type)} 
+          zeroQuantity={props.zeroQuantityInfo[ctrl.type]} />
       )}
     </div>
   );
