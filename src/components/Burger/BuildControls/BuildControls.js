@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import BuildControlsStyles from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';
-import BackdropContext from '../../../context/backdrop-context';
+import AppContext from '../../../context/app-context';
 
 const controls = [
   {label: 'Salad', type: 'salad'},
@@ -11,7 +11,7 @@ const controls = [
 ];
 
 class BuildControls extends Component {
-  static contextType = BackdropContext;
+  static contextType = AppContext;
 
   render() {
     return (

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import ModalStyles from './Modal.module.css';
-import BackdropContext from '../../../context/backdrop-context';
+import AppContext from '../../../context/app-context';
 
 class Modal extends Component {
-  static contextType = BackdropContext;
+  static contextType = AppContext;
 
   render() {
     return (
