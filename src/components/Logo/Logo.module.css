@@ -1,0 +1,15 @@
+.Logo {
+  background-color: #855223;
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.Logo img {
+  height: 100%;
+}
+
+.Logo:hover {
+  background-color: #40A4C8;
+}
