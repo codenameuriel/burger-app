@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AppContext from './context/app-context';
-import Layout from './components/Layout/Layout';
+import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Backdrop from './components/UI/Backdrop/Backdrop';
 
