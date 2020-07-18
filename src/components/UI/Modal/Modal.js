@@ -3,7 +3,13 @@ import ModalStyles from './Modal.module.css';
 import AppContext from '../../../context/app-context';
 
 class Modal extends Component {
+  
   static contextType = AppContext;
+
+  shouldComponentUpdate(nextProps, nextState) {
+    //  only update, including order summary component if placing an order (button clicked)
+    return this.context.purchasing === true;
+  }
 
   render() {
     return (
