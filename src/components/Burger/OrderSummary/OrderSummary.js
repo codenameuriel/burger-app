@@ -1,7 +1,6 @@
 import React from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
-import AppContext from '../../../context/app-context';
  
 const OrderSummary = props => {
 
@@ -23,16 +22,8 @@ const OrderSummary = props => {
         </ul>
         <p><strong>Total Price: ${props.price}</strong></p>
         <p>Continue to Checkout?</p>
-        <AppContext.Consumer>
-          {context => {
-            return (
-              <React.Fragment>
-                <Button btnType="Danger" clicked={context.cancelPurchase}>Cancel</Button>
-                <Button btnType="Success" clicked={context.continuePurchase}>Continue</Button>
-              </React.Fragment>
-            );
-          }}
-        </AppContext.Consumer>
+        <Button btnType="Danger" clicked={props.cancelPurchase}>Cancel</Button>
+        <Button btnType="Success" clicked={props.continuePurchase}>Continue</Button>
       </Aux>
     );
 };

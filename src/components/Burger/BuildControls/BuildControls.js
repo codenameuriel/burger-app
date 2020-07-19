@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import BuildControlsStyles from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';
-import AppContext from '../../../context/app-context';
 
 const controls = [
   {label: 'Salad', type: 'salad'},
@@ -11,7 +10,6 @@ const controls = [
 ];
 
 class BuildControls extends Component {
-  static contextType = AppContext;
 
   render() {
     return (
@@ -27,7 +25,7 @@ class BuildControls extends Component {
         )}
         <button 
           className={BuildControlsStyles.OrderButton}
-          onClick={this.context.purchaseHandler} 
+          onClick={this.props.purchaseHandler} 
           disabled={!this.props.purchasable}>Place Order</button>
       </div>
     );

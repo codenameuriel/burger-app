@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axiosInstance from '../../axios-orders';
 
 // global constant
 const INGREDIENT_PRICES = {
@@ -23,7 +24,7 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 4, // base price
     purchasable: false,
-    // purchasing: false
+    purchasing: false
   }
 
   addIngredientHandler = type => {
@@ -72,9 +73,20 @@ class BurgerBuilder extends Component {
     this.setState({purchasable: sum > 0});
   }
 
-  // purchaseHandler = () => {
-  //   this.setState({purchasing: true});
-  // }
+  purchaseCancelHandler = () => {
+    this.setState({purchasing: false});
+  }
+
+  purchaseContinueHandler = () => {
+    alert('You continued!');
+    // firebase special syntax for endpoint (node name + .json)
+    // axiosInstance.post('/orders.json');
+
+  }
+
+  purchaseHandler = () => {
+    this.setState({purchasing: true});
+  }
 
   render() {
     const zeroQuantityInfo = {...this.state.ingredients};
@@ -84,10 +96,14 @@ class BurgerBuilder extends Component {
 
     return (
       <Aux>
-        <Modal>
+        <Modal 
+          purchasing={this.state.purchasing}
+          closeModal={this.purchaseCancelHandler}>
           <OrderSummary 
             ingredients={this.state.ingredients} 
-            price={this.state.totalPrice.toFixed(2)}/>
+            price={this.state.totalPrice.toFixed(2)}
+            continuePurchase={this.purchaseContinueHandler}
+            cancelPurchase={this.purchaseCancelHandler}/>
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls 
@@ -95,7 +111,8 @@ class BurgerBuilder extends Component {
           removeIngredient={this.removeIngredientHandler}
           zeroQuantityInfo={zeroQuantityInfo}
           price={this.state.totalPrice.toFixed(2)}
-          purchasable={this.state.purchasable} />
+          purchasable={this.state.purchasable}
+          purchaseHandler={this.purchaseHandler}/>
       </Aux>
     );
   }
