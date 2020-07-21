@@ -5,6 +5,9 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axiosInstance from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
+// 'withErrorHandler' is a function so imported with camel-case
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 // global constant
 const INGREDIENT_PRICES = {
@@ -16,15 +19,23 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      bacon: 0,
-      cheese: 0,
-      meat: 0
-    },
+    // base ingredients will be requested from Database
+    ingredients: null,
     totalPrice: 4, // base price
     purchasable: false,
-    purchasing: false
+    purchasing: false,
+    loading: false
+  }
+
+  componentDidMount() {
+    this.getIngredients();
+  }
+
+  // requesting data from database ingredients object with 4 k:v {meat: 0, salad: 0, cheese: 0, bacon: 0}
+  async getIngredients() {
+    const ingredients = await (await axiosInstance.get('/ingredients.json')).data;
+  
+    this.setState({ingredients: ingredients});
   }
 
   addIngredientHandler = type => {
@@ -77,45 +88,98 @@ class BurgerBuilder extends Component {
     this.setState({purchasing: false});
   }
 
-  purchaseContinueHandler = () => {
-    alert('You continued!');
-    // firebase special syntax for endpoint (node name + .json)
-    // axiosInstance.post('/orders.json');
+  purchaseContinueHandler = async() => {
+    try {
+      // alert('You continued!');
+      this.setState({loading: true});
+      const order = {
+        ingredients: this.state.ingredients,
+        price: this.state.totalPrice,
+        // dummy data
+        customer: {
+          name: 'Uri Rod',
+          address: {
+            street: '111 Jersey Street',
+            zipCode: 11177,
+            country: 'USA'
+          },
+          email: 'test@test.com'
+        },
+        deliveryMethod: 'fastest'
+      };
 
+      // firebase special syntax for endpoint (node name + .json)
+      const post = await axiosInstance.post('/orders.json', order);
+      this.setState({loading: false, purchasing: false});
+      console.log(post);
+    } catch (err) {
+      this.setState({loading: false, purchasing: false});
+      console.log(err);
+    }
   }
 
   purchaseHandler = () => {
     this.setState({purchasing: true});
   }
 
-  render() {
-    const zeroQuantityInfo = {...this.state.ingredients};
+  renderOrderSummary() {
+    let orderSummary = (
+      <OrderSummary 
+        ingredients={this.state.ingredients} 
+        price={this.state.totalPrice.toFixed(2)}
+        continuePurchase={this.purchaseContinueHandler}
+        cancelPurchase={this.purchaseCancelHandler}/>
+    );
+      
+    if (this.state.loading || !this.state.ingredients) {
+      orderSummary = <Spinner />;
+    }
 
-    // create a boolean valued ingredients object to disable 'less' button if true for zero quantity for specific ingredient
-    for (let key in zeroQuantityInfo) zeroQuantityInfo[key] = zeroQuantityInfo[key] <= 0;
+    return orderSummary;
+  }
 
-    return (
-      <Aux>
-        <Modal 
-          purchasing={this.state.purchasing}
-          closeModal={this.purchaseCancelHandler}>
-          <OrderSummary 
-            ingredients={this.state.ingredients} 
-            price={this.state.totalPrice.toFixed(2)}
-            continuePurchase={this.purchaseContinueHandler}
-            cancelPurchase={this.purchaseCancelHandler}/>
-        </Modal>
-        <Burger ingredients={this.state.ingredients} />
+  renderBurgerAndControls() {
+    let burger = <Spinner />;
+    let controls = <Spinner />;
+
+    if (this.state.ingredients) {
+      const zeroQuantityInfo = {...this.state.ingredients};
+
+      // create a boolean valued ingredients object to disable 'less' button if true for zero quantity for specific ingredient
+      for (let key in zeroQuantityInfo) zeroQuantityInfo[key] = zeroQuantityInfo[key] <= 0;
+
+      burger = 
+        <Burger ingredients={this.state.ingredients}/>;
+      controls = 
         <BuildControls 
           addIngredient={this.addIngredientHandler} 
           removeIngredient={this.removeIngredientHandler}
           zeroQuantityInfo={zeroQuantityInfo}
           price={this.state.totalPrice.toFixed(2)}
           purchasable={this.state.purchasable}
-          purchaseHandler={this.purchaseHandler}/>
+          purchaseHandler={this.purchaseHandler}/>;
+    }
+
+    return (
+      <Aux>
+        {burger}
+        {controls}
+      </Aux>
+    );
+  }
+
+  render() {
+    return (
+      <Aux>
+        <Modal 
+          purchasing={this.state.purchasing}
+          closeModal={this.purchaseCancelHandler}>
+          {this.renderOrderSummary()}
+        </Modal>
+        {this.renderBurgerAndControls()}
       </Aux>
     );
   }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axiosInstance);

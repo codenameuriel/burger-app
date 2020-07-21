@@ -1,13 +1,13 @@
 import React from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
- 
+
 const OrderSummary = props => {
 
     const ingredientSummary = 
       Object.keys(props.ingredients).map(ingredient => {
         return (
-          <li style={{listStyle: 'decimal'}} key={ingredient}>
+          <li style={{listStyle: 'none', marginRight: '30px'}} key={ingredient}>
             <span style={{textTransform: 'capitalize'}}>{ingredient}</span>: {props.ingredients[ingredient]}
           </li>
         );
