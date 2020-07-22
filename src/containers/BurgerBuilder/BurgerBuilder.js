@@ -24,7 +24,8 @@ class BurgerBuilder extends Component {
     totalPrice: 4, // base price
     purchasable: false,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
   }
 
   componentDidMount() {
@@ -33,9 +34,13 @@ class BurgerBuilder extends Component {
 
   // requesting data from database ingredients object with 4 k:v {meat: 0, salad: 0, cheese: 0, bacon: 0}
   async getIngredients() {
-    const ingredients = await (await axiosInstance.get('/ingredients.json')).data;
-  
-    this.setState({ingredients: ingredients});
+    try {
+      const ingredients = await (await axiosInstance.get('/ingredients')).data;
+    
+      this.setState({ingredients: ingredients});
+    } catch (err) {
+      this.setState({error: true});
+    }
   }
 
   addIngredientHandler = type => {
@@ -139,14 +144,18 @@ class BurgerBuilder extends Component {
   }
 
   renderBurgerAndControls() {
-    let burger = <Spinner />;
-    let controls = <Spinner />;
+    let burger = null;
+    // handle rendering of error on the BurgerBuilder component level 
+    // also handled on the HOC withErrorHandler level
+    let controls = this.state.error ? <p style={{textAlign: 'center'}}><strong>There were issues retreiving the ingredients from the database</strong></p> : <Spinner />;
 
     if (this.state.ingredients) {
       const zeroQuantityInfo = {...this.state.ingredients};
 
       // create a boolean valued ingredients object to disable 'less' button if true for zero quantity for specific ingredient
-      for (let key in zeroQuantityInfo) zeroQuantityInfo[key] = zeroQuantityInfo[key] <= 0;
+      for (let key in zeroQuantityInfo) {
+        zeroQuantityInfo[key] = zeroQuantityInfo[key] <= 0;
+      }
 
       burger = 
         <Burger ingredients={this.state.ingredients}/>;

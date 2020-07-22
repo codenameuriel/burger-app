@@ -13,14 +13,17 @@ import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';
 
 const withErrorHandler = (WrappedComponent, axios) => {
-  // returned hoc
+  // returned HOC
   return class extends Component {
     state = {
       error: null
     }
 
-    componentDidMount() {
-      // setting up interceptors to execute upon each request and response on the component mounting
+    // changed from componentDidMount
+    // ** interceptors setup needs to happen before the children components execute their componentDidMount lifecycle method which makes a GET request to the database
+    // want to handle errors within HOC
+    UNSAFE_componentWillMount() {
+      // setting up interceptors to execute upon each request and response
 
       // upon each request will clear past response errors to allow for new errors from responses
       axios.interceptors.request.use(req => {
@@ -43,6 +46,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
     }
 
     render() {
+      console.log('inside render', this.state)
       return (
         <Aux>
           <Modal purchasing={this.state.error} closeModal={this.errorConfirmedHandler}>
