@@ -11,6 +11,7 @@
 import React, {Component} from 'react';
 import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';
+import axiosInstance from '../../axios-orders';
 
 const withErrorHandler = (WrappedComponent, axios) => {
   // returned HOC
@@ -26,7 +27,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       // setting up interceptors to execute upon each request and response
 
       // upon each request will clear past response errors to allow for new errors from responses
-      axios.interceptors.request.use(req => {
+      this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null});
         return req;
       });
@@ -35,7 +36,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       // the error object received will be saved to state
       // error object has a 'message' property that can be logged to see the error
       // have to return the response
-      axios.interceptors.response.use(resp => resp, error => {
+      this.respInterceptor = axios.interceptors.response.use(resp => resp, error => {
         this.setState({error: error});
       });
     }
@@ -43,6 +44,11 @@ const withErrorHandler = (WrappedComponent, axios) => {
     // dismissing error modal view on click on the Backdrop
     errorConfirmedHandler = () => {
       this.setState({error: null});
+    }
+
+    componentWillUnmount() {
+      axiosInstance.interceptors.request.eject(this.reqInterceptor);
+      axiosInstance.interceptors.response.eject(this.respInterceptor);
     }
 
     render() {

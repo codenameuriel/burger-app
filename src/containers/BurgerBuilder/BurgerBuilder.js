@@ -35,7 +35,8 @@ class BurgerBuilder extends Component {
   // requesting data from database ingredients object with 4 k:v {meat: 0, salad: 0, cheese: 0, bacon: 0}
   async getIngredients() {
     try {
-      const ingredients = await (await axiosInstance.get('/ingredients')).data;
+      const ingredients = 
+        await (await axiosInstance.get('/ingredients.json')).data;
     
       this.setState({ingredients: ingredients});
     } catch (err) {
@@ -117,6 +118,7 @@ class BurgerBuilder extends Component {
       const post = await axiosInstance.post('/orders.json', order);
       this.setState({loading: false, purchasing: false});
       console.log(post);
+      
     } catch (err) {
       this.setState({loading: false, purchasing: false});
       console.log(err);
