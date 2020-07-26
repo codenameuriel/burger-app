@@ -37,8 +37,16 @@ class BurgerBuilder extends Component {
     try {
       const ingredients = 
         await (await axiosInstance.get('/ingredients.json')).data;
+
+        // Firebase reorders ingredients alphabetically affecting rendered order of ingredients
+        const reorderedIngredients = {
+          salad: ingredients.salad,
+          bacon: ingredients.bacon,
+          cheese: ingredients.cheese,
+          meat: ingredients.meat
+        };
     
-      this.setState({ingredients: ingredients});
+      this.setState({ingredients: reorderedIngredients});
     } catch (err) {
       this.setState({error: true});
     }
@@ -94,35 +102,53 @@ class BurgerBuilder extends Component {
     this.setState({purchasing: false});
   }
 
-  purchaseContinueHandler = async() => {
-    try {
-      // alert('You continued!');
-      this.setState({loading: true});
-      const order = {
-        ingredients: this.state.ingredients,
-        price: this.state.totalPrice,
-        // dummy data
-        customer: {
-          name: 'Uri Rod',
-          address: {
-            street: '111 Jersey Street',
-            zipCode: 11177,
-            country: 'USA'
-          },
-          email: 'test@test.com'
-        },
-        deliveryMethod: 'fastest'
-      };
+  // purchaseContinueHandler = async() => {
+  //   try {
+  //     // alert('You continued!');
+  //     this.setState({loading: true});
+  //     const order = {
+  //       ingredients: this.state.ingredients,
+  //       price: this.state.totalPrice,
+  //       // dummy data
+  //       customer: {
+  //         name: 'Uri Rod',
+  //         address: {
+  //           street: '111 Jersey Street',
+  //           zipCode: 11177,
+  //           country: 'USA'
+  //         },
+  //         email: 'test@test.com'
+  //       },
+  //       deliveryMethod: 'fastest'
+  //     };
 
-      // firebase special syntax for endpoint (node name + .json)
-      const post = await axiosInstance.post('/orders.json', order);
-      this.setState({loading: false, purchasing: false});
-      console.log(post);
-      
-    } catch (err) {
-      this.setState({loading: false, purchasing: false});
-      console.log(err);
+  //     // firebase special syntax for endpoint (node name + .json)
+  //     const post = await axiosInstance.post('/orders.json', order);
+  //     this.setState({loading: false, purchasing: false});
+  //     console.log(post);
+
+  //   } catch (err) {
+  //     this.setState({loading: false, purchasing: false});
+  //     console.log(err);
+  //   }
+  // }
+
+  purchaseContinueHandler = () => {
+    const queryParams = [];
+
+    for (let ingredient in this.state.ingredients) {
+      // encodes elements to allow use within a URL
+      // bacon=1
+      queryParams.push(`${encodeURIComponent(ingredient)}=${encodeURIComponent(this.state.ingredients[ingredient])}`);
     }
+
+    // bacon=1&cheese=2...
+    const queryString = queryParams.join('&');
+
+    this.props.history.push({
+      pathname: '/checkout',
+      search: `?${queryString}`
+    });
   }
 
   purchaseHandler = () => {
