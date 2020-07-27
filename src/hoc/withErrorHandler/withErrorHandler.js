@@ -52,7 +52,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
     }
 
     render() {
-      console.log('inside render', this.state)
       return (
         <Aux>
           <Modal purchasing={this.state.error} closeModal={this.errorConfirmedHandler}>
