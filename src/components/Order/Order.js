@@ -15,7 +15,8 @@ const Order = props => {
         display: 'inline-block',
         margin: '0 8px',
         border: '1px solid #40A4C8',
-        padding: '5px'
+        padding: '5px',
+        borderRadius: '5px'
       }}
     >{string} </span>);
 
@@ -26,7 +27,7 @@ const Order = props => {
     <div className={OrderStyles.Order}>
       {/* <p>Ingredients: Salad</p> */}
       {renderIngredients()}
-    <p>Price: <strong>USD {props.price.toFixed(2)}</strong> </p>
+      <p>Price: <strong>USD {props.price.toFixed(2)}</strong> </p>
     </div>
   );
 }

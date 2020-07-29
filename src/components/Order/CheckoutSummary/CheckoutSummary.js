@@ -6,7 +6,8 @@ import CheckoutSummaryStyles from './CheckoutSummary.module.css';
 function CheckoutSummary(props) {
   return (
     <div className={CheckoutSummaryStyles.CheckoutSummary}>
-      <h1>We hope you enjoy!</h1>
+      <h1>Here's your burger!</h1>
+      <p>Continue with checkout or go back</p>
       <div style={{width: '100%', margin: 'auto'}}>
         <Burger ingredients={props.ingredients}/>
       </div>
