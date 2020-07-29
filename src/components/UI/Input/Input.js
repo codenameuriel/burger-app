@@ -3,18 +3,21 @@ import InputStyles from './Input.module.css';
 
 const Input = props => {
   let inputElement;
+  const inputStyles = [InputStyles.InputElement];
+
+  if (props.invalid && props.shouldValidate && props.touched) inputStyles.push(InputStyles.Invalid);
 
   switch (props.elementType) {
     case ('input'):
       inputElement = <input 
-                        className={InputStyles.InputElement} 
+                        className={inputStyles.join(' ')} 
                         {...props.elementConfig} 
                         value={props.value}  
                         onChange={props.changed}/>;
       break;
     case ('textarea'): 
       inputElement = <textarea 
-                        className={InputStyles.InputElement} 
+                        className={inputStyles.join(' ')} 
                         {...props.elementConfig} 
                         value={props.value} 
                         onChange={props.changed}/>;
@@ -22,7 +25,7 @@ const Input = props => {
     case ('select'):
       inputElement = 
         <select 
-          className={InputStyles.InputElement} 
+          className={inputStyles.join(' ')} 
           value={props.value} 
           onChange={props.changed}>
           {props.elementConfig.options.map(option => (
@@ -33,7 +36,7 @@ const Input = props => {
     default: 
       inputElement = 
         <input 
-          className={InputStyles.InputElement} 
+          className={inputStyles.join(' ')} 
           {...props.elementConfig} 
           value={props.value} 
           onChange={props.changed}/>;
@@ -41,7 +44,7 @@ const Input = props => {
 
   return (
     <div className={InputStyles.Input}>
-      <label className={InputStyles.Label}>{props.label}</label>
+      {/* <label className={InputStyles.Label}>{props.label}</label> */}
       {inputElement}
     </div>
   );

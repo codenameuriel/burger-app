@@ -11,6 +11,11 @@
   border-radius: 5px;
 }
 
+.Button:disabled {
+  cursor: not-allowed;
+  color: #888888;
+}
+
 .Button:first-of-type {
   margin-left: 0;
   padding-left: 0;
