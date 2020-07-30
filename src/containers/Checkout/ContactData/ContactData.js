@@ -84,7 +84,7 @@ class ContactData extends Component {
             {value: 'cheapest', displayValue: 'Cheapest'}
           ]
         },
-        value: '',
+        value: 'fastest',
         valid: true
       }
     },
@@ -153,6 +153,7 @@ class ContactData extends Component {
 
     updatedFormElement.value = event.target.value;
 
+    // alternative is to add empty validation object to the deliveryMethod
     if (updatedFormElement.validation) {
       updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
       updatedFormElement.touched = true;
@@ -211,7 +212,7 @@ class ContactData extends Component {
   render() {
     return (
       <div className={ContactDataStyles.ContactData}>
-        <h4>Enter you Information</h4>
+        <h4>Enter your Contact Information</h4>
         {this.renderView()}
       </div>
     );
