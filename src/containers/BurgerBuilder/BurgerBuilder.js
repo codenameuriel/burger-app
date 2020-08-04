@@ -9,7 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 // 'withErrorHandler' is a function so imported with camel-case
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from './../../store/actions/index'
 
 class BurgerBuilder extends Component {
   state = {
@@ -199,12 +199,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddIngredient: (ingredient) => dispatch({type: actionTypes.ADD_INGREDIENT, payload: {
-      ingredient: ingredient
-    }}),
-    onRemoveIngredient: (ingredient) => dispatch({type: actionTypes.REMOVE_INGREDIENT, payload: {
-      ingredient: ingredient
-    }})
+    onAddIngredient: (ingredient) => dispatch(actionCreators.addIngredient(ingredient)),
+    onRemoveIngredient: (ingredient) => dispatch(actionCreators.removeIngredient(ingredient))
   };
 };
 

@@ -18,12 +18,10 @@ class Orders extends Component {
       const fetchedOrders = [];
       // returns a JS object with Firebase IDs as key and order object as the value
       const orders = await (await axiosInstance.get('/orders.json')).data; // {dlfjdj: {}, djfdjfj: {}, etc...}
+
       for (let key in orders) {
         fetchedOrders.push({...orders[key], id: key});
       }
-
-      console.log(orders);
-      console.log(fetchedOrders);
 
       this.setState({orders: fetchedOrders, loading: false});
     } catch (err) {
@@ -36,7 +34,7 @@ class Orders extends Component {
       return (
         <Order key={order.id} ingredients={order.ingredients} price={order.price}/>
       );
-    })
+    });
   }
 
   render() {
