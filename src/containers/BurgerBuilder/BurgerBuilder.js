@@ -19,34 +19,35 @@ class BurgerBuilder extends Component {
     // purchasable: false,
 
     // UI state properties
-    purchasing: false,
-    loading: false,
-    error: false
+    purchasing: false
+    // loading: false,
+    // error: false
   }
 
   componentDidMount() {
-    this.getIngredients();
+    // this.getIngredients();
+    this.props.onInitIngredients();
   }
 
   // requesting data from database ingredients object with 4 k:v {meat: 0, salad: 0, cheese: 0, bacon: 0}
-  async getIngredients() {
-    try {
-      const ingredients = 
-        await (await axiosInstance.get('/ingredients.json')).data;
+  // async getIngredients() {
+  //   try {
+  //     const ingredients = 
+  //       await (await axiosInstance.get('/ingredients.json')).data;
 
-        // Firebase reorders ingredients alphabetically affecting rendered order of ingredients
-        const reorderedIngredients = {
-          salad: ingredients.salad,
-          bacon: ingredients.bacon,
-          cheese: ingredients.cheese,
-          meat: ingredients.meat
-        };
+  //       // Firebase reorders ingredients alphabetically affecting rendered order of ingredients
+  //       const reorderedIngredients = {
+  //         salad: ingredients.salad,
+  //         bacon: ingredients.bacon,
+  //         cheese: ingredients.cheese,
+  //         meat: ingredients.meat
+  //       };
     
-      this.setState({ingredients: reorderedIngredients});
-    } catch (err) {
-      this.setState({error: true});
-    }
-  }
+  //     this.setState({ingredients: reorderedIngredients});
+  //   } catch (err) {
+  //     this.setState({error: true});
+  //   }
+  // }
 
   // addIngredientHandler = type => {
   //   const ingredientQuantity = this.state.ingredients[type];
@@ -135,18 +136,18 @@ class BurgerBuilder extends Component {
         cancelPurchase={this.purchaseCancelHandler}/>
     );
       
-    if (this.state.loading || !this.props.ings) {
+    if (!this.props.ings) {
       orderSummary = <Spinner />;
     }
 
     return orderSummary;
   }
-
+π
   renderBurgerAndControls() {
     let burger = null;
     // handle rendering of error on the BurgerBuilder component level 
     // also handled on the HOC withErrorHandler level
-    let controls = this.state.error ? <p style={{textAlign: 'center'}}><strong>There were issues retreiving the ingredients from the database</strong></p> : <Spinner />;
+    let controls = this.props.error ? <p style={{textAlign: 'center'}}><strong>There were issues retreiving the ingredients from the database</strong></p> : <Spinner />;
 
     if (this.props.ings) {
       const zeroQuantityInfo = {...this.props.ings};
@@ -193,14 +194,16 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    price: state.totalPrice
+    price: state.totalPrice,
+    error: state.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onAddIngredient: (ingredient) => dispatch(actionCreators.addIngredient(ingredient)),
-    onRemoveIngredient: (ingredient) => dispatch(actionCreators.removeIngredient(ingredient))
+    onRemoveIngredient: (ingredient) => dispatch(actionCreators.removeIngredient(ingredient)),
+    onInitIngredients: () => dispatch(actionCreators.initIngredients())
   };
 };
 

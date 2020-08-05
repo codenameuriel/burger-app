@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axiosInstance from '../../axios-orders';
 
 export const addIngredient = ingredient => {
   return {
@@ -16,4 +17,45 @@ export const removeIngredient = ingredient => {
       ingredient: ingredient
     }
   };
+};
+
+const fetchIngredientsFailed = () => {
+  return {
+    type: actionTypes.FETCH_INGREDIENTS_FAILED
+  };
+};
+
+const setIngredients = ingredients => {
+  return {
+    type: actionTypes.SET_INGREDIENTS,
+    payload: {
+      ingredients: ingredients
+    }
+  };
+};
+
+// helper function
+const getIngredients = async(dispatch) => {
+  try {
+    const ingredients = await (await axiosInstance.get('/ingredients.json')).data;
+
+    // Firebase reorders ingredients alphabetically affecting rendered order of ingredients
+    const reorderedIngredients = {
+      salad: ingredients.salad,
+      bacon: ingredients.bacon,
+      cheese: ingredients.cheese,
+      meat: ingredients.meat
+    };
+
+    dispatch(setIngredients(reorderedIngredients));
+  } catch (error) {
+    dispatch(fetchIngredientsFailed());
+  }
+};
+
+// redux thunk middleware
+export const initIngredients = () => {
+  return dispatch => {
+    getIngredients(dispatch)
+  }
 };
