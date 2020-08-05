@@ -27,7 +27,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       // setting up interceptors to execute upon each request and response
 
       // upon each request will clear past response errors to allow for new errors from responses
-      this.reqInterceptor = axios.interceptors.request.use(req => {
+      this.reqInterceptor = axiosInstance.interceptors.request.use(req => {
         this.setState({error: null});
         return req;
       });
@@ -36,7 +36,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       // the error object received will be saved to state
       // error object has a 'message' property that can be logged to see the error
       // have to return the response
-      this.respInterceptor = axios.interceptors.response.use(resp => resp, error => {
+      this.respInterceptor = axiosInstance.interceptors.response.use(resp => resp, error => {
         this.setState({error: error});
       });
     }

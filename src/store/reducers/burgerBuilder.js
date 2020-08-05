@@ -12,7 +12,7 @@ const INGREDIENT_PRICES = {
   cheese: 0.4,
   meat: 1.3,
   bacon: 0.7
-} ;
+};
 
 // modifying 2 pieces of data within the state with a single action because price relies on the ingredients
 const reducer = (state = initialState, action) => {
@@ -39,7 +39,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.payload.ingredients,
-        error: false
+        error: false,
+        totalPrice: 4
       };
     case actionTypes.FETCH_INGREDIENTS_FAILED:
       return {
