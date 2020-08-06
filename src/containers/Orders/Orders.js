@@ -4,12 +4,13 @@ import axiosInstance from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actionCreators from '../../store/actions/index';
 import {connect} from 'react-redux';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends Component {
-  state = {
-    // orders: [],
-    // loading: true
-  }
+  // state = {
+  //   orders: [],
+  //   loading: true
+  // }
 
   componentDidMount() {
     // this.getOrders();
@@ -43,7 +44,7 @@ class Orders extends Component {
   render() {
     return (
       <div>
-        {this.renderOrders()}
+        {this.props.loading ? <Spinner /> : this.renderOrders()}
       </div>
     );
   }
