@@ -33,7 +33,8 @@ class ContactData extends Component {
         },
         value: '',
         validation: {
-          required: true
+          required: true,
+          isEmail: true
         },
         valid: false,
         touched: false
@@ -101,6 +102,14 @@ class ContactData extends Component {
     if (rules.required) {
       // remove whitespaces at beginning/end of input value
       isValid = value.trim() !== '' && isValid;
+    }
+
+    if (rules.isEmail) {
+      const pattern = (
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      );
+
+      isValid = pattern.test(value) && isValid;
     }
 
     if (rules.minLength) {
