@@ -45,6 +45,7 @@ export const purchaseBurger = orderData => {
   };
 };
 
+// handles loading (fetching) phase to render Spinner component
 const fetchOrdersStart = () => {
   return {
     type: actionTypes.FETCH_ORDERS_START
@@ -70,9 +71,10 @@ const fetchOrdersFail = error => {
 };
 
 // async helper function
-const getOrders = async(dispatch) => {
+const getOrders = async(token, dispatch) => {
   try {
-    const orders = await (await axiosInstance.get('/orders.json')).data;
+    // add auth token received when logged in in Firebase
+    const orders = await (await axiosInstance.get(`/orders.json?auth=${token}`)).data;
 
     const fetchedOrders = [];
 
@@ -86,9 +88,10 @@ const getOrders = async(dispatch) => {
   }
 };
 
-export const fetchOrders = () => {
+// redux middleware
+export const fetchOrders = (token) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
-    getOrders(dispatch);
+    getOrders(token, dispatch);
   };
 };
