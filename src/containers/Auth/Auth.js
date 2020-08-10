@@ -4,6 +4,7 @@ import Button from '../../components/UI/Button/Button';
 import AuthStyles from './Auth.module.css';
 import * as actionCreators from '../../store/actions/index';
 import {connect} from 'react-redux';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 export class Auth extends Component {
   state = {
@@ -36,7 +37,16 @@ export class Auth extends Component {
         valid: false,
         touched: false
       }
-    }
+    },
+    isSignedUp: true
+  }
+
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      return {
+        isSignedUp: !prevState.isSignedUp
+      };
+    });
   }
 
   checkValidity(value, rules) {
@@ -69,7 +79,7 @@ export class Auth extends Component {
   submitHandler = (event) => {
     event.preventDefault();
 
-    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignedUp);
   }
 
   renderForm() {
@@ -117,11 +127,28 @@ export class Auth extends Component {
     this.setState({controls: updatedControls});
   }
 
+  renderErrorMessage() {
+    let errorMessage = null;
+
+    // accessing the 'error' object's message property from Firebase upon failure to authenticate user (signing up or signing in)
+    if (this.props.error) {
+      errorMessage = (
+        <p>{this.props.error.message}</p>
+      );
+    }
+
+    return errorMessage;
+  }
+
   render() {
     return (
       <div className={AuthStyles.Auth}>
-        {this.renderForm()}
-        <Button btnType="Danger">Sign In</Button>
+        <h2>{this.state.isSignedUp ? 'Sign In' : 'Sign Up'}</h2>
+        {this.renderErrorMessage()}
+        {this.props.loading ? <Spinner /> : this.renderForm()}
+        <Button 
+          clicked={this.switchAuthModeHandler}
+          btnType="Danger">{this.state.isSignedUp ? 'Click to Sign Up' : 'Click to Sign In'}</Button>
       </div>
     );
   }
@@ -129,13 +156,14 @@ export class Auth extends Component {
 
 const mapStateToProps = state => {
   return {
-
+    loading: state.auth.loading,
+    error: state.auth.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password) => dispatch(actionCreators.auth(email, password))
+    onAuth: (email, password, isSignedUp) => dispatch(actionCreators.auth(email, password, isSignedUp))
   };
 };
 
