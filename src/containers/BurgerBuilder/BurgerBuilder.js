@@ -123,8 +123,15 @@ class BurgerBuilder extends Component {
     this.props.history.push('/checkout');
   }
 
+  // only allow purchasing if user is logged in
   purchaseHandler = () => {
-    this.setState({purchasing: true});
+    if (this.props.isAuth) {
+      this.setState({purchasing: true});
+    } else {
+      // store '/checkout' path in Redux state
+      this.props.onSetAuthRedirectPath('/checkout');
+      this.props.history.push('/auth');
+    }
   }
 
   renderOrderSummary() {
@@ -166,7 +173,8 @@ class BurgerBuilder extends Component {
           zeroQuantityInfo={zeroQuantityInfo}
           price={this.props.price.toFixed(2)}
           purchasable={this.updatePurchaseState(this.props.ings)}
-          purchaseHandler={this.purchaseHandler}/>;
+          purchaseHandler={this.purchaseHandler}
+          isAuth={this.props.isAuth}/>;
     }
 
     return (
@@ -195,7 +203,8 @@ const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isAuth: state.auth.token !== null
   };
 };
 
@@ -203,7 +212,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onAddIngredient: (ingredient) => dispatch(actionCreators.addIngredient(ingredient)),
     onRemoveIngredient: (ingredient) => dispatch(actionCreators.removeIngredient(ingredient)),
-    onInitIngredients: () => dispatch(actionCreators.initIngredients())
+    onInitIngredients: () => dispatch(actionCreators.initIngredients()),
+    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path))
   };
 };
 

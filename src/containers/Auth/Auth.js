@@ -42,6 +42,13 @@ export class Auth extends Component {
     isSignedUp: true
   }
 
+  componentDidMount() {
+    // when on Auth page to only sign in, redirect will be to the home page upon signing in
+    if (!this.props.building && this.props.authRedirectPath !== '/') {
+      this.props.onSetAuthRedirectPath('/');
+    }
+  }
+  
   switchAuthModeHandler = () => {
     this.setState(prevState => {
       return {
@@ -144,7 +151,8 @@ export class Auth extends Component {
   render() {
     let authRedirect = null;
 
-    if (this.props.isAuth) authRedirect = <Redirect />;
+    // will be redirected to either home page or the checkout page upon signing in
+    if (this.props.isAuth) authRedirect = <Redirect to={this.props.authRedirectPath}/>;
 
     return (
       <div className={AuthStyles.Auth}>
@@ -164,13 +172,16 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
-    isAuth: state.auth.token !== null
+    isAuth: state.auth.token !== null,
+    building: state.burgerBuilder.building,
+    authRedirectPath: state.auth.authRedirectPath
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignedUp) => dispatch(actionCreators.auth(email, password, isSignedUp))
+    onAuth: (email, password, isSignedUp) => dispatch(actionCreators.auth(email, password, isSignedUp)),
+    onSetAuthRedirectPath: (path) => dispatch(actionCreators.setAuthRedirectPath(path))
   };
 };
 

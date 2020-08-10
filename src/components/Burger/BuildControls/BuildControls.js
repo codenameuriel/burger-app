@@ -26,7 +26,7 @@ class BuildControls extends Component {
         <button 
           className={BuildControlsStyles.OrderButton}
           onClick={this.props.purchaseHandler} 
-          disabled={!this.props.purchasable}>Place Order</button>
+          disabled={!this.props.purchasable}>{this.props.isAuth ? 'Place Order' : 'Sign In To Order'}</button>
       </div>
     );
   }
