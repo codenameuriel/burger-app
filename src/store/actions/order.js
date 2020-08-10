@@ -28,9 +28,10 @@ export const purchaseBurgerStart = () => {
 };
 
 // async helper function
-const placeOrder = async(dispatch, orderData) => {
+const placeOrder = async(dispatch, token, orderData) => {
   try {
-    const postedOrder = await(await axiosInstance.post('/orders.json', orderData)).data;
+    // user must be authenticated to place an order
+    const postedOrder = await(await axiosInstance.post(`/orders.json?auth=${token}`, orderData)).data;
     dispatch(purchaseBurgerSuccess(postedOrder.name, orderData));
   } catch (error) {
     dispatch(purchaseBurgerFail(error));
@@ -38,10 +39,10 @@ const placeOrder = async(dispatch, orderData) => {
 };
 
 // async middleware
-export const purchaseBurger = orderData => {
+export const purchaseBurger = (token, orderData) => {
   return dispatch => {
     dispatch(purchaseBurgerStart());
-    placeOrder(dispatch, orderData);
+    placeOrder(dispatch, token, orderData);
   };
 };
 
