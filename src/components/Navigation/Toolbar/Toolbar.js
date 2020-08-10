@@ -14,7 +14,7 @@ const Toolbar = props => {
      </div>
      {/* hide links when on mobile device */}
      <nav className={ToolbarStyles.DesktopOnly}>
-       <NavigationItems />
+       <NavigationItems isAuth={props.isAuth}/>
      </nav>
    </header>
   );
