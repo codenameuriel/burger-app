@@ -5,6 +5,7 @@ import AuthStyles from './Auth.module.css';
 import * as actionCreators from '../../store/actions/index';
 import {connect} from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import {Redirect} from 'react-router-dom';
 
 export class Auth extends Component {
   state = {
@@ -141,8 +142,13 @@ export class Auth extends Component {
   }
 
   render() {
+    let authRedirect = null;
+
+    if (this.props.isAuth) authRedirect = <Redirect />;
+
     return (
       <div className={AuthStyles.Auth}>
+        {authRedirect}
         <h2>{this.state.isSignedUp ? 'Sign In' : 'Sign Up'}</h2>
         {this.renderErrorMessage()}
         {this.props.loading ? <Spinner /> : this.renderForm()}
@@ -157,7 +163,8 @@ export class Auth extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    isAuth: state.auth.token !== null
   };
 };
 
