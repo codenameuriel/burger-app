@@ -1,4 +1,6 @@
 import * as actionTypes from './actionTypes';
+import { apiKey } from '../../key';
+
 import axios from 'axios';
 
 export const authStart = () => {
@@ -46,7 +48,6 @@ const checkAuthTimeout = expirationTime => {
 const authenticateUser = async(email, password, isSignedUp, dispatch) => {
   try {
     let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
-    const apiKey = 'AIzaSyB3J-sYDdaoEoDITO3KTNjVUSFG8JZiGeU';
 
     if (isSignedUp) {
       url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
