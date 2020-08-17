@@ -12,7 +12,8 @@
 
 .OrderButton {
   /* background-color: #DAD735; */
-  background-color: #40A4C8;
+  /* background-color: #40A4C8; */
+  background-color: #4cbfe8;
   outline: none;
   cursor: pointer;
   border: 1px solid #966909;
@@ -27,7 +28,7 @@
 
 .OrderButton:hover, .OrderButton:active {
   /* background-color: #A0DB41; */
-  background-color: #77c9e7;
+  background-color: #93f3f5;
   border: 1px solid #966909;
   /* color: #c28b14; */
   color: #703c0b;

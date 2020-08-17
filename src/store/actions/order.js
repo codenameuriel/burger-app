@@ -72,10 +72,13 @@ const fetchOrdersFail = error => {
 };
 
 // async helper function
-const getOrders = async(token, dispatch) => {
+const getOrders = async(token, userId, dispatch) => {
   try {
-    // add auth token received when logged in in Firebase
-    const orders = await (await axiosInstance.get(`/orders.json?auth=${token}`)).data;
+    const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+
+    // add auth token received when logged on in Firebase
+    // filtering the orders by the logged in user using the userId value
+    const orders = await (await axiosInstance.get(`/orders.json${queryParams}`)).data;
 
     const fetchedOrders = [];
 
@@ -90,9 +93,9 @@ const getOrders = async(token, dispatch) => {
 };
 
 // redux middleware
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
-    getOrders(token, dispatch);
+    getOrders(token, userId, dispatch);
   };
 };
