@@ -9,7 +9,7 @@ export const authStart = () => {
   };
 };
 
-// sync action creators
+// synchronous action creators
 const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
@@ -30,6 +30,10 @@ const authFail = error => {
 };
 
 export const logout = () => {
+  // clear local storage when user logs out
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
+  localStorage.removeItem('userId');
   return {
     type: actionTypes.AUTH_LOGOUT
   };
@@ -62,7 +66,13 @@ const authenticateUser = async(email, password, isSignedUp, dispatch) => {
     const response = await axios.post(`${url}${apiKey}`, authData);
     const idToken = response.data.idToken;
     const userId = response.data.localId;
-    const expirationTime = response.data.expiresIn * 1000; // convert value to seconds
+    const expirationTime = response.data.expiresIn * 1000; // convert seconds value to milliseconds
+ 
+    // store information on the current user including when their auth token expires in milliseconds
+    const expirationDate = new Date(new Date().getTime() + expirationTime);
+    localStorage.setItem('token', idToken);
+    localStorage.setItem('expirationDate', expirationDate);
+    localStorage.setItem('userId', userId);
 
     console.log(response.data);
   
@@ -72,6 +82,27 @@ const authenticateUser = async(email, password, isSignedUp, dispatch) => {
     // axios wraps response (Firebase's error) within an error object
     dispatch(authFail(error.response.data.error));
   }
+};
+
+// thunk middleware
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(logout());
+    } else {
+      // convert string value for date when token expires into a Date object
+      const expirationDate = new Date(localStorage.getItem('expirationDate'));
+      if (new Date() >= expirationDate) {
+        dispatch(logout());
+      } else {
+        const userId = localStorage.getItem('userId');
+        const timeRemaining = expirationDate.getTime() - new Date().getTime();
+        dispatch(authSuccess(token, userId));
+        dispatch(checkAuthTimeout(timeRemaining));
+      }
+    }
+  };
 };
 
 // redux thunk middleware
