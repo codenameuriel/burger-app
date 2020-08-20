@@ -8,7 +8,7 @@ export const checkValidity = (value, rules) => {
 
   if (rules.isEmail) {
     const pattern = (
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/
     );
 
     isValid = pattern.test(value) && isValid;
