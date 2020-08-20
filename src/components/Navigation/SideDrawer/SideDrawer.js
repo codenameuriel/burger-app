@@ -15,7 +15,7 @@ const SideDrawer = props => {
   return (
     <Aux>
       <Backdrop purchasing={props.open} closeModal={props.closed}/>
-      <div className={attachedStyles.join(' ')}>
+      <div className={attachedStyles.join(' ')} onClick={props.closed}>
         <div className={SideDrawerStyles.Logo}>
           <Logo backgroundColor="white"/>
         </div>

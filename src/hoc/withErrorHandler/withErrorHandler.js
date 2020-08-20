@@ -1,4 +1,4 @@
-// create a higher order anonymous Class componentm (class factory) that is returned upon receiving another component as an argument
+// create a higher order anonymous Class component aka class factory that is returned upon receiving another component as an argument
 
 // withErrorHandler hoc will repurpose the Modal component to display errors that occur with the component it wraps
 
@@ -7,7 +7,6 @@
 // destructuring the props object and passing back down each prop to the wrapped component just as they are defined within the parent component 
 
 // pass the axios global object or the instance to allow for global error handling functionality
-
 import React, {Component} from 'react';
 import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';

@@ -5,9 +5,3 @@
   /* color: #785a0c; */
   color: #703b09;
 }
-
-@media (min-width: 600px) {
-  .CheckoutSummary {
-    width: 500px;
-  }
-}
