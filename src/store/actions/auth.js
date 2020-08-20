@@ -73,8 +73,6 @@ const authenticateUser = async(email, password, isSignedUp, dispatch) => {
     localStorage.setItem('token', idToken);
     localStorage.setItem('expirationDate', expirationDate);
     localStorage.setItem('userId', userId);
-
-    console.log(response.data);
   
     dispatch(authSuccess(idToken, userId));
     dispatch(checkAuthTimeout(expirationTime));
