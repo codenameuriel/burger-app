@@ -12,7 +12,10 @@ import authReducer from './store/reducers/auth';
 import thunk from 'redux-thunk';
 
 // Redux dev tools enhancer
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// can only be used in development mode
+const composeEnhancers = (
+  process.env.NODE_ENV === 'developement' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
+);
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
