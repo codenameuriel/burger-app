@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, withRouter} from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import NavigationItemStyles from './NavigationItem.module.css';
 
 const NavigationItem = props => {

@@ -8,7 +8,7 @@ import axiosInstance from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 // 'withErrorHandler' is a function so imported with camel-case
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actionCreators from './../../store/actions/index'
 
 class BurgerBuilder extends Component {

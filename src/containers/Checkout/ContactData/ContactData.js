@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Button from '../../../components/UI/Button/Button';
 import ContactDataStyles from './ContactData.module.css';
 import axiosInstance from '../../../axios-orders';
+import { checkValidity } from '../../../shared/validation';
 import Input from '../../../components/UI/Input/Input';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actionCreators from '../../../store/actions/index';
 
@@ -96,33 +97,6 @@ class ContactData extends Component {
     // loading: false
   }
 
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (rules.required) {
-      // remove whitespaces at beginning/end of input value
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = (
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-      );
-
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    
-    return isValid;
-  }
-
   orderHandler = async(event) => {
     event.preventDefault();
     
@@ -159,7 +133,7 @@ class ContactData extends Component {
 
     // alternative is to add empty validation object to the deliveryMethod
     if (updatedFormElement.validation) {
-      updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+      updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
       updatedFormElement.touched = true;
     }
       

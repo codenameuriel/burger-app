@@ -7,7 +7,7 @@
 // destructuring the props object and passing back down each prop to the wrapped component just as they are defined within the parent component 
 
 // pass the axios global object or the instance to allow for global error handling functionality
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';
 import axiosInstance from '../../axios-orders';

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Aux from '../Aux/Aux';
 import LayoutStyles from './Layout.module.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Layout extends Component {
   state = {
