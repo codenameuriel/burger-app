@@ -14,7 +14,7 @@ import thunk from 'redux-thunk';
 // Redux dev tools enhancer
 // can only be used in development mode
 const composeEnhancers = (
-  process.env.NODE_ENV === 'developement' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
+  process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose
 );
 
 const rootReducer = combineReducers({
