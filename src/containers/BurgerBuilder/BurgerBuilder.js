@@ -11,7 +11,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import * as actionCreators from './../../store/actions/index'
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     // base ingredients will be requested from Database
     // ingredients: null,
