@@ -44,7 +44,6 @@ export class Auth extends Component {
   }
 
   componentDidMount() {
-    // when on Auth page to only sign in, redirect will be to the home page upon signing in
     if (!this.props.building && this.props.authRedirectPath !== '/') {
       this.props.onSetAuthRedirectPath('/');
     }
@@ -112,7 +111,6 @@ export class Auth extends Component {
   renderErrorMessage() {
     let errorMessage = null;
 
-    // accessing the 'error' object's message property from Firebase upon failure to authenticate user (signing up or signing in)
     if (this.props.error) {
       errorMessage = (
         <p>{this.props.error.message}</p>
@@ -125,7 +123,6 @@ export class Auth extends Component {
   render() {
     let authRedirect = null;
 
-    // will be redirected to either home page or the checkout page upon signing in
     if (this.props.isAuth) authRedirect = <Redirect to={this.props.authRedirectPath}/>;
 
     return (

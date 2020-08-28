@@ -2,16 +2,13 @@
   width: 100%;
   margin: auto;
   height: 300px;
-  /* overflow: scroll; */
   overflow: auto;
   text-align: center;
   font-weight: bold;
   font-size: 1.2rem;
-  /* color: #785a0c; */
   color: #703b09;
 }
 
-/* media queries to ensure responsiveness on many devices */
 @media (min-width: 1000px) and (min-height: 700px) {
   .Burger {
     width: 700px;
@@ -26,7 +23,6 @@
   }
 }
 
-/* to handle portrait mode viewing size */
 @media (min-width: 500px) and (min-height: 400px) {
   .Burger {
     width: 400px;

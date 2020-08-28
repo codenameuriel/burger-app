@@ -7,31 +7,9 @@ import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends Component {
-  // state = {
-  //   orders: [],
-  //   loading: true
-  // }
-
   componentDidMount() {
-    // this.getOrders();
     this.props.onFetchOrders(this.props.token, this.props.userId);
   } 
-
-  // async getOrders() {
-  //   try {
-  //     const fetchedOrders = [];
-  //     // returns a JS object with Firebase IDs as key and order object as the value
-  //     const orders = await (await axiosInstance.get('/orders.json')).data; // {dlfjdj: {}, djfdjfj: {}, etc...}
-
-  //     for (let key in orders) {
-  //       fetchedOrders.push({...orders[key], id: key});
-  //     }
-
-  //     this.setState({orders: fetchedOrders, loading: false});
-  //   } catch (err) {
-  //     this.setState({loading: false});
-  //   }
-  // }
 
   renderOrders() {
     return this.props.orders.map(order => {

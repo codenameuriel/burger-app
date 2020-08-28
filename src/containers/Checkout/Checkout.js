@@ -5,32 +5,6 @@ import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
 
 class Checkout extends Component {
-  // state = {
-  //   ingredients: {
-  //     salad: 0,
-  //     bacon: 0,
-  //     cheese: 0,
-  //     meat: 0
-  //   },
-  //   totalPrice: 0
-  // }
-
-  // componentDidMount() {
-  //   // parse search params
-  //   const query = new URLSearchParams(this.props.location.search);
-  //   const checkoutIngredients = {};
-  //   let price = 0;
-
-  //   for (let [key, value] of query.entries()) {
-  //     if (key !== 'price') {
-  //       checkoutIngredients[key] = parseInt(value, 10);
-  //     } else {
-  //       price = +value;
-  //     }
-  //   }
-  //   this.setState({ingredients: checkoutIngredients, totalPrice: price});
-  // }
-
   cancelCheckout = () => {
     this.props.history.goBack();
   }

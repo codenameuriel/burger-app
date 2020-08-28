@@ -12,7 +12,6 @@
   transition: transform 0.3s ease-out;
 }
 
-/* bigger devices that exceed 500px do not need a side drawer */
 @media (min-width: 500px) {
   .SideDrawer {
     display: none;
@@ -23,7 +22,6 @@
   transform: translateX(0);
 }
 
-/* shift side drawer to the left */
 .Close {
   transform: translateX(-100%);
 }

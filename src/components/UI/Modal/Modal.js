@@ -6,7 +6,6 @@ import Backdrop from '../Backdrop/Backdrop';
 class Modal extends Component {
 
   shouldComponentUpdate(nextProps) {
-    //  only update if there is a change in 'purchasing' that will determine whether to show the modal when purchasing or hide when canceling a purchase ordern or when the component being shown is the order summary or a loader for the post request of the order to the database on placing an order
     return nextProps.purchasing !== this.props.purchasing || nextProps.children !== this.props.children;
   }
 

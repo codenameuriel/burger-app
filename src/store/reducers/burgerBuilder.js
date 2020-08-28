@@ -6,8 +6,7 @@ const initialState = {
   error: false,
   building: false
 };
- 
-// global constant
+
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
@@ -15,7 +14,6 @@ const INGREDIENT_PRICES = {
   bacon: 0.7
 };
 
-// modifying 2 pieces of data within the state with a single action because price relies on the ingredients
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:

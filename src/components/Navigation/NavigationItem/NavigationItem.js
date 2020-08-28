@@ -5,7 +5,6 @@ import NavigationItemStyles from './NavigationItem.module.css';
 const NavigationItem = props => {
   return (
     <li className={NavigationItemStyles.NavigationItem}>
-      {/* exact only allows active class being set if the path is exact match */}
       <NavLink to={props.link} exact activeClassName={NavigationItemStyles.active}>{props.children}</NavLink>
     </li>
   );

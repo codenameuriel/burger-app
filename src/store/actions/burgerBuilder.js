@@ -34,12 +34,10 @@ const setIngredients = ingredients => {
   };
 };
 
-// helper function
 const getIngredients = async(dispatch) => {
   try {
     const ingredients = await (await axiosInstance.get('/ingredients.json')).data;
 
-    // Firebase reorders ingredients alphabetically affecting rendered order of ingredients
     const reorderedIngredients = {
       salad: ingredients.salad,
       bacon: ingredients.bacon,
@@ -53,7 +51,6 @@ const getIngredients = async(dispatch) => {
   }
 };
 
-// redux thunk middleware
 export const initIngredients = () => {
   return dispatch => {
     getIngredients(dispatch)

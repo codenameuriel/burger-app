@@ -1,7 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axiosInstance from '../../axios-orders';
 
-// synchronous action creators
 const purchaseBurgerSuccess = (id, orderData) => {
   return {
     type: actionTypes.PURCHASE_BURGER_SUCCESS,
@@ -27,10 +26,8 @@ export const purchaseBurgerStart = () => {
   };
 };
 
-// async helper function
 const placeOrder = async(dispatch, token, orderData) => {
   try {
-    // user must be authenticated to place an order
     const postedOrder = await(await axiosInstance.post(`/orders.json?auth=${token}`, orderData)).data;
     dispatch(purchaseBurgerSuccess(postedOrder.name, orderData));
   } catch (error) {
@@ -38,7 +35,6 @@ const placeOrder = async(dispatch, token, orderData) => {
   }
 };
 
-// async middleware
 export const purchaseBurger = (token, orderData) => {
   return dispatch => {
     dispatch(purchaseBurgerStart());
@@ -46,7 +42,6 @@ export const purchaseBurger = (token, orderData) => {
   };
 };
 
-// handles loading (fetching) phase to render Spinner component
 const fetchOrdersStart = () => {
   return {
     type: actionTypes.FETCH_ORDERS_START
@@ -71,13 +66,10 @@ const fetchOrdersFail = error => {
   };
 };
 
-// async helper function
 const getOrders = async(token, userId, dispatch) => {
   try {
     const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
 
-    // add auth token received when logged on in Firebase
-    // filtering the orders by the logged in user using the userId value
     const orders = await (await axiosInstance.get(`/orders.json${queryParams}`)).data;
 
     const fetchedOrders = [];
@@ -92,7 +84,6 @@ const getOrders = async(token, userId, dispatch) => {
   }
 };
 
-// redux middleware
 export const fetchOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());

@@ -30,7 +30,6 @@ class BurgerIngredient extends Component {
       case ('bacon'):
         ingredient = <div className={BurgerIngredientStyles.Bacon}></div>
         break;
-      // handle incorrect type being passed in props
       default:
         ingredient = null;
     }
@@ -40,7 +39,6 @@ class BurgerIngredient extends Component {
 }
 
 BurgerIngredient.propTypes = {
-  // chained condition 'isRequire' to throw error if type does not receive a value
   type: PropTypes.string.isRequired 
 };
 

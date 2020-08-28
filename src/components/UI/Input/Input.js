@@ -44,7 +44,6 @@ const Input = props => {
 
   return (
     <div className={InputStyles.Input}>
-      {/* <label className={InputStyles.Label}>{props.label}</label> */}
       {inputElement}
     </div>
   );

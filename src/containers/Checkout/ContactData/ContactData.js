@@ -94,7 +94,6 @@ class ContactData extends Component {
       }
     },
     formIsValid: false
-    // loading: false
   }
 
   orderHandler = async(event) => {
@@ -119,19 +118,16 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
-    // shallow clone
     const updatedOrderForm = {
       ...this.state.orderForm
     };
 
-    // deep cloning of nested object
     const updatedFormElement = {
       ...updatedOrderForm[inputIdentifier]
     };
 
     updatedFormElement.value = event.target.value;
 
-    // alternative is to add empty validation object to the deliveryMethod
     if (updatedFormElement.validation) {
       updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
       updatedFormElement.touched = true;

@@ -2,7 +2,6 @@ export const checkValidity = (value, rules) => {
   let isValid = true;
 
   if (rules.required) {
-    // remove whitespaces at beginning/end of input value
     isValid = value.trim() !== '' && isValid;
   }
 

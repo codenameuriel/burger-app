@@ -9,7 +9,6 @@ export const authStart = () => {
   };
 };
 
-// synchronous action creators
 const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
@@ -30,7 +29,6 @@ const authFail = error => {
 };
 
 export const logout = () => {
-  // clear local storage when user logs out
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   localStorage.removeItem('userId');
@@ -39,7 +37,6 @@ export const logout = () => {
   };
 };
 
-// redux thunk middleware
 const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
@@ -48,7 +45,6 @@ const checkAuthTimeout = expirationTime => {
   };
 };  
 
-// async helper method
 const authenticateUser = async(email, password, isSignedUp, dispatch) => {
   try {
     let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
@@ -66,9 +62,7 @@ const authenticateUser = async(email, password, isSignedUp, dispatch) => {
     const response = await axios.post(`${url}${apiKey}`, authData);
     const idToken = response.data.idToken;
     const userId = response.data.localId;
-    const expirationTime = response.data.expiresIn * 1000; // convert seconds value to milliseconds
- 
-    // store information on the current user including when their auth token expires in milliseconds
+    const expirationTime = response.data.expiresIn * 1000; 
     const expirationDate = new Date(new Date().getTime() + expirationTime);
     localStorage.setItem('token', idToken);
     localStorage.setItem('expirationDate', expirationDate);
@@ -77,19 +71,16 @@ const authenticateUser = async(email, password, isSignedUp, dispatch) => {
     dispatch(authSuccess(idToken, userId));
     dispatch(checkAuthTimeout(expirationTime));
   } catch (error) {
-    // axios wraps response (Firebase's error) within an error object
     dispatch(authFail(error.response.data.error));
   }
 };
 
-// thunk middleware
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token');
     if (!token) {
       dispatch(logout());
     } else {
-      // convert string value for date when token expires into a Date object
       const expirationDate = new Date(localStorage.getItem('expirationDate'));
       if (new Date() >= expirationDate) {
         dispatch(logout());
@@ -103,7 +94,6 @@ export const authCheckState = () => {
   };
 };
 
-// redux thunk middleware
 export const auth =  (email, password, isSignedUp) => {
   return dispatch => {
     authenticateUser(email, password, isSignedUp, dispatch);
